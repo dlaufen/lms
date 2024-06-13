@@ -39,5 +39,5 @@ function get_host(port = 9000) {
 		}
 		host = host + ":" + port;
 	}
-	return host + `/${frappe.boot.sitename}`;
+	return host + '/lms_test'   // frappe.boot not in context  `/${frappe.boot.sitename}`;
 }
