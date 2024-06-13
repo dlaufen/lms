@@ -5,12 +5,10 @@ import { getCachedResource } from 'frappe-ui/src/resources/resources'
 
 export function initSocket() {
 	let host = window.location.hostname
-	let siteName = window.site_name || host
-	let port = window.location.port ? `:${socketio_port}` : ''
-	let protocol = port ? 'http' : 'https'
+	let siteName = window.site_name //|| host
+	let port = window.location.port ? window.location.port : `:${socketio_port}`;
+	let protocol = window.location.protocol;
 	let url = `${protocol}://${host}${port}/${siteName}`
-
-	url = get_host();
 	
 	let socket = io(url, {
 		withCredentials: true,
@@ -27,17 +25,4 @@ export function initSocket() {
 		}
 	})
 	return socket
-}
-
-function get_host(port = 9000) {
-	let host = window.location.origin;
-	if (window.dev_server) {
-		let parts = host.split(":");
-		port = frappe.boot.socketio_port || port.toString() || "9000";
-		if (parts.length > 2) {
-			host = parts[0] + ":" + parts[1];
-		}
-		host = host + ":" + port;
-	}
-	return host + '/lms_test'   // frappe.boot not in context  `/${frappe.boot.sitename}`;
 }
